@@ -1,9 +1,13 @@
 services:
-  - type: docker
+  - type: web
     name: laravel-sqlite-app
-    # The build context is the root directory
+    # Specify the docker build context
     dockerContext: .
     plan: free
+    # The build command runs once when the image is built
+    buildCommand: "composer install"
+    # The start command runs on every deployment
+    startCommand: "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
     envVars:
       - key: APP_KEY
         generateValue: true
