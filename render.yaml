@@ -1,8 +1,10 @@
 services:
   - type: web
     name: laravel-sqlite-app
+    runtime: docker 
     dockerContext: .
     plan: free
+    startCommand: 
     envVars:
       - key: APP_KEY
         generateValue: true
