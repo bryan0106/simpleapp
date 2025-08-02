@@ -1,10 +1,12 @@
 services:
   - type: web
     name: laravel-sqlite-app
-    runtime: php
+    # Use the Docker runtime to build the app from the Dockerfile
     plan: free
-    buildCommand: "composer install && php artisan key:generate && php artisan storage:link"
-    startCommand: "php artisan migrate --force && php artisan serve --host=0.0.0.0"
+    dockerContext: .
+    dockerContext: ./
+    buildCommand: "./deploy.sh"
+    startCommand: "php artisan migrate --force && php artisan db:seed --force"
     envVars:
       - key: APP_KEY
         generateValue: true
