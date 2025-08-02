@@ -1,7 +1,7 @@
 services:
-  - type: web
+  - type: docker
     name: laravel-sqlite-app
-    # Use Docker to build the app
+    # The build context is the root directory
     dockerContext: .
     plan: free
     envVars:

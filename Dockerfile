@@ -21,3 +21,5 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Expose port 80 for Nginx
 EXPOSE 80
+
+# The base image's entrypoint will automatically start Nginx and PHP-FPM.
