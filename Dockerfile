@@ -5,10 +5,12 @@ FROM richarvey/nginx-php-fpm:latest
 WORKDIR /var/www/html
 # Install composer dependencies, including dev dependencies for seeding
 COPY composer.json composer.lock ./
+
+# Copy all application files into the image
+COPY . .
+
+# Install composer dependencies
 RUN composer install
-
-# ... other Dockerfile commands
-
 # Run migrations and seed the database
 RUN php artisan migrate --force && php artisan db:seed --force
 
