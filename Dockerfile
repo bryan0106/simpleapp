@@ -1,4 +1,4 @@
-# Start with a base image that includes Nginx and PHP-FPM
+# Use a base image with Nginx and PHP-FPM
 FROM richarvey/nginx-php-fpm:latest
 
 # Set the working directory
@@ -10,13 +10,14 @@ COPY . /var/www/html
 # Copy the custom Nginx configuration
 COPY conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 
-# Install Composer dependencies
-RUN composer install --no-dev --optimize --no-interaction
+# Install Composer dependencies and optimize
+RUN composer install --no-dev --optimize
 
-# Set permissions for the storage directory
+# Run migrations and seed the database during the build process
+RUN php artisan migrate --force && php artisan db:seed --force
+
+# Set file permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
 # Expose port 80 for Nginx
 EXPOSE 80
-
-# The start command is handled by the base image's entrypoint
